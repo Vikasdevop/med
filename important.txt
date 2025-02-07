@@ -1,0 +1,3 @@
+1. cretae a good css with responsize design.
+2. make api for both login and register.
+3. after register new customer it doenst work means new registration is not get saved in the databse.
