@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Customer = require("../models/Customer");
+const Customer = require("../../models/CustomerModel/Customer");
 
 
 exports.login = async (req, res) => {
@@ -34,7 +34,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.register = async (req, res) => {
+exports.customerRegister = async (req, res) => {
   try {
     const {
       name,
@@ -60,11 +60,11 @@ exports.register = async (req, res) => {
       phone,
       email,
       password: hashedPassword,
+      confirmPassword: hashedPassword,
       age,
       Address,
       Pincode,
     });
-
     await customer.save();
     res.status(201).json({ message: "Customer registered successfully" });
   } catch (error) {

@@ -1,47 +1,79 @@
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const cors = require('cors');
 
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'frontend', 'public')));
+
+// Connect to MongoDB
 connectDB();
 
-// // Basic route
-// app.get('/', (req, res) => {
-//     res.send('Hello, Express!');
+// // Routes for serving static files
+// app.get('/login', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.html'));
 // });
 
-// defining routes
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.html'));
-  
-});
+// app.get('/login.css', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.css'));
+// });
 
-app.get('/login.css', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.css'));
-});
+// app.get('/login.js', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.js'));
+// });
 
-app.get('/login.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'public', 'login', 'login.js'));
-});
+// app.get('/register', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.html'));
+// });
 
-app.get('/register', (req, res) => {
-res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.html'));
-});
+// app.get('/register.css', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.css'));
+// });
 
+// app.get('/register.js', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.js'));
+// });
 
-app.get('/register.css', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.css'));
-});
+// // Register route
+// app.post('/register', async (req, res) => {
+//   const { name, username, phone, email, password, confirmPassword, age, Address, pincode } = req.body;
 
-app.get('/register.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'public', 'register', 'register.js'));
-});
+//   // Basic validation
+//   if (!name || !username || !email || !password || !confirmPassword) {
+//     return res.status(400).send('All fields are required');
+//   }
 
-app.use(express.static('public'));
+//   if (password !== confirmPassword) {
+//     return res.status(400).send('Passwords do not match');
+//   }
 
-// Start the server
+//   try {
+//     const newCustomer = new Customer({ name, username, phone, email, password, confirmPassword, age, Address, pincode });
+//     await newCustomer.save();
+//     res.status(201).send('Customer created successfully');
+//     console.log('Customer created successfully');
+//   } catch (error) {
+//     console.error('Error in creating customer:', error);
+//     res.status(500).send(`Error in creating customer: ${error.message}`);
+//   }
+// });
+
+// Import and use auth routes
+const customerAuthRoutes = require('./routes/CustomerRoutes/auth');
+app.use('/api/auth', customerAuthRoutes);
+
+const medicalStoreAuthRoutes = require('./routes/MedicalStoreRoutes/auth');
+app.use('/api/auth', medicalStoreAuthRoutes);
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
