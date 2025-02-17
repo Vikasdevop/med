@@ -7,6 +7,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json()); // Body parser
 
 // Middleware
 app.use(cors());
@@ -67,6 +68,12 @@ connectDB();
 // });
 
 // Import and use auth routes
+const LoginAuthRoutes = require('./routes/LoginRoutes/auth');
+app.use('/api/auth', LoginAuthRoutes);
+
+const adminAuthRoutes = require('./routes/AdminRoutes/auth');
+app.use('/api/auth', adminAuthRoutes);
+
 const customerAuthRoutes = require('./routes/CustomerRoutes/auth');
 app.use('/api/auth', customerAuthRoutes);
 

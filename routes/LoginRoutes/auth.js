@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../../controllers/MedicalStore/authController");
+const authController = require("../../controllers/Login/LoginController");
 
-router.post("/medicalStoreRegister", authController.medicalStoreRegister);
+router.post("/login", authController.login);
+router.post("/forgot-Password", authController.forgotPassword);
+router.post("/resetPassword/:token", authController.resetPassword);
 
 // //Middleware auth testing route
 // router.get("/profile", authMiddleware, (req, res) => {

@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const MedicalStore = require("../../models/MedicalStoreModel/MedicalStore");
+const Admin = require("../../models/AdminModel/Admin.js");
 
-exports.medicalStoreRegister = async (req, res) => {
+exports.AdminRegister = async (req, res) => {
   try {
     const {
       name,
@@ -11,9 +11,7 @@ exports.medicalStoreRegister = async (req, res) => {
       email,
       password,
       confirmPassword,
-      LicenseNumber,
-      ShopAddress,
-      Pincode,
+      age,
     } = req.body;
 
     if (password !== confirmPassword) {
@@ -22,24 +20,20 @@ exports.medicalStoreRegister = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    const MedicalData = new MedicalStore({
+    const admin = new Admin({
       name,
       username,
       phone,
       email,
       password: hashedPassword,
-      LicenseNumber,
-      ShopAddress,
-      Pincode,
+      age,
     });
-    
-
-    await MedicalData.save();
-    res.status(201).json({ message: "Medical Store registered successfully"});
+    await admin.save();
+    res.status(201).json({ message: "Admin registered successfully" });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error registering in Medical Store", error: error.message });
+      .json({ message: "Error registering Admin", error: error.message });
   }
 };
 

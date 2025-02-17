@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../../controllers/Customer/authController");
+const authController = require("../../controllers/Admin/AdminController");
 
-router.post("/customerRegister", authController.customerRegister);
+router.post("/AdminRegister", authController.AdminRegister);
 
 // //Middleware auth testing route
 // router.get("/profile", authMiddleware, (req, res) => {
