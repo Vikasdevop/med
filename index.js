@@ -3,6 +3,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const axios = require('axios');
 const path = require('path');
 const cors = require('cors');
 
@@ -30,6 +31,10 @@ app.use('/api/auth', customerAuthRoutes);
 
 const medicalStoreAuthRoutes = require('./routes/MedicalStoreRoutes/auth');
 app.use('/api/auth', medicalStoreAuthRoutes);
+
+const apiAuthRoutes = require('./routes/APIRoutes/gstRoutes');
+app.use('/api/auth', apiAuthRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
