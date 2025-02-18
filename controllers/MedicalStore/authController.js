@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
-
 const jwt = require("jsonwebtoken");
 const MedicalStore = require("../../models/MedicalStoreModel/MedicalStore");
-const axios = require("axios"); // ✅ Correct
+const axios = require("axios");
 
 
 exports.medicalStoreRegister = async (req, res) => {
